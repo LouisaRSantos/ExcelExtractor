@@ -1,0 +1,17 @@
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\EE (Excel Extractor).exe.config
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\EE (Excel Extractor).exe
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\EE (Excel Extractor).pdb
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\EPPlus.dll
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\EPPlus.Interfaces.dll
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\EPPlus.System.Drawing.dll
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\EPPlus.xml
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).csproj.AssemblyReference.cache
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE__Excel_Extractor_.Form1.resources
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE__Excel_Extractor_.Properties.Resources.resources
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).csproj.GenerateResource.cache
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).csproj.CoreCompileInputs.cache
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).csproj.CopyComplete
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).exe
+C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).pdb
