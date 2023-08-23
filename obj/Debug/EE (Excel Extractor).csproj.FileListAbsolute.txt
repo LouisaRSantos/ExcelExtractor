@@ -15,3 +15,17 @@ C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\E
 C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).csproj.CopyComplete
 C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).exe
 C:\Users\USER\source\repos\EE (Excel Extractor)\EE (Excel Extractor)\obj\Debug\EE (Excel Extractor).pdb
+C:\Users\LAW\Documents\Code\ExcelExtractor\bin\Debug\EE (Excel Extractor).exe.config
+C:\Users\LAW\Documents\Code\ExcelExtractor\bin\Debug\EE (Excel Extractor).exe
+C:\Users\LAW\Documents\Code\ExcelExtractor\bin\Debug\EE (Excel Extractor).pdb
+C:\Users\LAW\Documents\Code\ExcelExtractor\bin\Debug\EPPlus.xml
+C:\Users\LAW\Documents\Code\ExcelExtractor\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE (Excel Extractor).csproj.AssemblyReference.cache
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE (Excel Extractor).csproj.SuggestedBindingRedirects.cache
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE__Excel_Extractor_.Form1.resources
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE__Excel_Extractor_.Properties.Resources.resources
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE (Excel Extractor).csproj.GenerateResource.cache
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE (Excel Extractor).csproj.CoreCompileInputs.cache
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE (Excel Extractor).csproj.CopyComplete
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE (Excel Extractor).exe
+C:\Users\LAW\Documents\Code\ExcelExtractor\obj\Debug\EE (Excel Extractor).pdb

@@ -10,10 +10,42 @@ namespace EE__Excel_Extractor_
     {
         private string selectedBarangay;
         private string inputFilePath;
-        private string selectedProvince;
+        private string selectedRegion;
+        private string selectedColumn;
+        private byte[] excelFileData;
+
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void btn_upload_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+                openFileDialog.Title = "Select Excel File";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    inputFilePath = openFileDialog.FileName;
+                    textBox_fileName.Text = openFileDialog.FileName;
+                    lbl_filename.Visible = true;
+                    lbl_filename.Text = "Uploaded. Ready to extract."; // Display the selected file path in a TextBox or Label
+
+                    using (var package = new ExcelPackage(new FileInfo(inputFilePath)))
+                    {
+                        var worksheet = package.Workbook.Worksheets[0]; // Assuming the data is on the first sheet
+                        var headerRow = worksheet.Cells[1, 1, 1, worksheet.Dimension.Columns];
+
+                        foreach (var cell in headerRow)
+                        {
+                            string columnName = cell.Text;
+                            cbox_Region.Items.Add(columnName);
+                        }
+                    }
+                }
+            }
         }
 
         private void btn_extract_Click(object sender, EventArgs e)
@@ -24,9 +56,19 @@ namespace EE__Excel_Extractor_
                 return;
             }
 
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            string selectedColumn = cbox_Region.SelectedItem?.ToString(); // Get the selected column header from ComboBox
+            if (string.IsNullOrEmpty(selectedColumn))
+            {
+                MessageBox.Show("Please select a column from the ComboBox.");
+                return;
+            }
 
-            selectedProvince = txtInput.Text.Trim().ToUpper();
+            string searchText = txtRegion.Text.Trim().ToUpper(); // Get the value to search from the TextBox
+            if (string.IsNullOrEmpty(searchText))
+            {
+                MessageBox.Show("Please enter a value to search.");
+                return;
+            }
 
             using (ExcelPackage package = new ExcelPackage(new FileInfo(inputFilePath)))
             {
@@ -49,55 +91,66 @@ namespace EE__Excel_Extractor_
                         {
                             ExcelWorksheet outputWorksheet = outputPackage.Workbook.Worksheets.Add("Extracted Data");
 
+                            int newRow = 1; // Start from row 1 for extracted data
+
                             // Copy header row from source worksheet to the output worksheet
                             for (int col = 1; col <= lastCol; col++)
                             {
-                                outputWorksheet.Cells[1, col].Value = worksheet.Cells[1, col].Value;
+                                outputWorksheet.Cells[newRow, col].Value = worksheet.Cells[1, col].Value;
                             }
 
-                            int newRow = 2; // Start from row 2 for extracted data
+                            newRow++;
 
-                            for (int row = 2; row <= lastRow; row++) // Start from row 2 to skip the header
+                            int selectedColumnIndex = -1; // Initialize the selected column index
+
+                            // Find the index of the selected column
+                            for (int col = 1; col <= lastCol; col++)
                             {
-                                for (int col = 1; col <= lastCol; col++)
+                                string columnName = worksheet.Cells[1, col]?.Text;
+
+                                if (columnName == selectedColumn)
                                 {
-                                    string cellValue = worksheet.Cells[row, col]?.Text;
-
-                                    if (!string.IsNullOrEmpty(cellValue) && cellValue.Contains(selectedProvince))
-                                    {
-                                        // Extract the entire row
-                                        for (int copyCol = 1; copyCol <= lastCol; copyCol++)
-                                        {
-                                            outputWorksheet.Cells[newRow, copyCol].Value = worksheet.Cells[row, copyCol].Text;
-                                        }
-
-                                        newRow++;
-                                        break; // Break the column loop since we found the keyword in this row
-                                    }
+                                    selectedColumnIndex = col;
+                                    break; // Exit the loop once the column is found
                                 }
                             }
 
-                            // Save the output Excel file
-                            FileInfo outputFile = new FileInfo(outputFilePath);
-                            outputPackage.SaveAs(outputFile);
+                            if (selectedColumnIndex == -1)
+                            {
+                                MessageBox.Show("Selected column not found.");
+                                return;
+                            }
 
-                            MessageBox.Show("Extraction complete. Extracted data saved to output file.");
+                            for (int row = 2; row <= lastRow; row++) // Start from row 2 to skip the header
+                            {
+                                string cellValue = worksheet.Cells[row, selectedColumnIndex]?.Text; // Get cell value of selected column
+
+                                if (!string.IsNullOrEmpty(cellValue) && cellValue.Trim().ToUpper() == searchText)
+                                {
+                                    // Extract the entire row
+                                    for (int col = 1; col <= lastCol; col++)
+                                    {
+                                        outputWorksheet.Cells[newRow, col].Value = worksheet.Cells[row, col].Text;
+                                    }
+
+                                    newRow++;
+                                }
+                            }
+
+                            if (newRow > 1)
+                            {
+                                // Save the output Excel file if data was extracted
+                                FileInfo outputFile = new FileInfo(outputFilePath);
+                                outputPackage.SaveAs(outputFile);
+
+                                MessageBox.Show("Extraction complete. Extracted data saved to output file.");
+                            }
+                            else
+                            {
+                                MessageBox.Show("No matching data found for the selected column and value.");
+                            }
                         }
                     }
-                }
-            }
-        }
-        private void btn_upload_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-                openFileDialog.Title = "Select Excel File";
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    inputFilePath = openFileDialog.FileName;
-                    lbl_filename.Text = "Uploaded. Ready to extract."; // Display the selected file path in a TextBox or Label
                 }
             }
         }
