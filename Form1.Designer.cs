@@ -38,27 +38,32 @@ namespace EE__Excel_Extractor_
             this.labelColumn = new System.Windows.Forms.Label();
             this.labelFilter = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.txtbox_index = new System.Windows.Forms.TextBox();
+            this.labelIndex = new System.Windows.Forms.Label();
+            this.labelEnter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_extract
             // 
-            this.btn_extract.Location = new System.Drawing.Point(265, 177);
+            this.btn_extract.Location = new System.Drawing.Point(265, 211);
             this.btn_extract.Name = "btn_extract";
             this.btn_extract.Size = new System.Drawing.Size(75, 23);
             this.btn_extract.TabIndex = 0;
             this.btn_extract.Text = "Extract";
             this.btn_extract.UseVisualStyleBackColor = true;
+            this.btn_extract.Visible = false;
             this.btn_extract.Click += new System.EventHandler(this.btn_extract_Click);
             // 
             // cbox_Region
             // 
             this.cbox_Region.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbox_Region.FormattingEnabled = true;
-            this.cbox_Region.Location = new System.Drawing.Point(34, 130);
+            this.cbox_Region.Location = new System.Drawing.Point(33, 155);
             this.cbox_Region.Name = "cbox_Region";
             this.cbox_Region.Size = new System.Drawing.Size(136, 21);
             this.cbox_Region.TabIndex = 1;
+            this.cbox_Region.Visible = false;
             // 
             // btn_upload
             // 
@@ -84,10 +89,11 @@ namespace EE__Excel_Extractor_
             // txtRegion
             // 
             this.txtRegion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtRegion.Location = new System.Drawing.Point(34, 180);
+            this.txtRegion.Location = new System.Drawing.Point(33, 211);
             this.txtRegion.Name = "txtRegion";
             this.txtRegion.Size = new System.Drawing.Size(136, 20);
             this.txtRegion.TabIndex = 4;
+            this.txtRegion.Visible = false;
             // 
             // textBox_fileName
             // 
@@ -102,20 +108,22 @@ namespace EE__Excel_Extractor_
             // labelColumn
             // 
             this.labelColumn.AutoSize = true;
-            this.labelColumn.Location = new System.Drawing.Point(33, 106);
+            this.labelColumn.Location = new System.Drawing.Point(32, 131);
             this.labelColumn.Name = "labelColumn";
             this.labelColumn.Size = new System.Drawing.Size(156, 13);
             this.labelColumn.TabIndex = 6;
             this.labelColumn.Text = "Choose column to filter through:";
+            this.labelColumn.Visible = false;
             // 
             // labelFilter
             // 
             this.labelFilter.AutoSize = true;
-            this.labelFilter.Location = new System.Drawing.Point(33, 164);
+            this.labelFilter.Location = new System.Drawing.Point(31, 193);
             this.labelFilter.Name = "labelFilter";
             this.labelFilter.Size = new System.Drawing.Size(121, 13);
             this.labelFilter.TabIndex = 7;
             this.labelFilter.Text = "Specify value to extract:";
+            this.labelFilter.Visible = false;
             // 
             // dataGridView1
             // 
@@ -125,11 +133,40 @@ namespace EE__Excel_Extractor_
             this.dataGridView1.Size = new System.Drawing.Size(465, 385);
             this.dataGridView1.TabIndex = 8;
             // 
+            // txtbox_index
+            // 
+            this.txtbox_index.Location = new System.Drawing.Point(193, 93);
+            this.txtbox_index.Name = "txtbox_index";
+            this.txtbox_index.Size = new System.Drawing.Size(42, 20);
+            this.txtbox_index.TabIndex = 9;
+            // 
+            // labelIndex
+            // 
+            this.labelIndex.AutoSize = true;
+            this.labelIndex.Location = new System.Drawing.Point(30, 96);
+            this.labelIndex.Name = "labelIndex";
+            this.labelIndex.Size = new System.Drawing.Size(157, 13);
+            this.labelIndex.TabIndex = 10;
+            this.labelIndex.Text = "Specify the index of the header:";
+            // 
+            // labelEnter
+            // 
+            this.labelEnter.AutoSize = true;
+            this.labelEnter.Location = new System.Drawing.Point(242, 97);
+            this.labelEnter.Name = "labelEnter";
+            this.labelEnter.Size = new System.Drawing.Size(32, 13);
+            this.labelEnter.TabIndex = 11;
+            this.labelEnter.Text = "Enter";
+            this.labelEnter.Click += new System.EventHandler(this.labelEnter_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(939, 437);
+            this.Controls.Add(this.labelEnter);
+            this.Controls.Add(this.labelIndex);
+            this.Controls.Add(this.txtbox_index);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.labelFilter);
             this.Controls.Add(this.labelColumn);
@@ -139,7 +176,9 @@ namespace EE__Excel_Extractor_
             this.Controls.Add(this.btn_upload);
             this.Controls.Add(this.cbox_Region);
             this.Controls.Add(this.btn_extract);
+            this.MaximizeBox = false;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "REGION";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -158,6 +197,9 @@ namespace EE__Excel_Extractor_
         private System.Windows.Forms.Label labelColumn;
         private System.Windows.Forms.Label labelFilter;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TextBox txtbox_index;
+        private System.Windows.Forms.Label labelIndex;
+        private System.Windows.Forms.Label labelEnter;
     }
 }
 

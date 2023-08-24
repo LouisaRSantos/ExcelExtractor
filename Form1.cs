@@ -4,16 +4,13 @@ using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using System.Data;
+using System.Diagnostics;
 
 namespace EE__Excel_Extractor_
 {
     public partial class Form1 : Form
     {
-        private string selectedBarangay;
         private string inputFilePath;
-        private string selectedRegion;
-        private string selectedColumn;
-        private byte[] excelFileData;
 
         public Form1()
         {
@@ -34,17 +31,7 @@ namespace EE__Excel_Extractor_
                     lbl_filename.Visible = true;
                     lbl_filename.Text = "Uploaded. Ready to extract."; // Display the selected file path in a TextBox or Label
 
-                    using (var package = new ExcelPackage(new FileInfo(inputFilePath)))
-                    {
-                        var worksheet = package.Workbook.Worksheets[0]; // Assuming the data is on the first sheet
-                        var headerRow = worksheet.Cells[1, 1, 1, worksheet.Dimension.Columns];
-
-                        foreach (var cell in headerRow)
-                        {
-                            string columnName = cell.Text;
-                            cbox_Region.Items.Add(columnName);
-                        }
-                    }
+                    
                 }
 
                 LoadExcelData(inputFilePath);
@@ -118,6 +105,46 @@ namespace EE__Excel_Extractor_
                 int lastRow = worksheet.Dimension.End.Row;
                 int lastCol = worksheet.Dimension.End.Column;
 
+                int selectedColumnIndex = -1; // Initialize the selected column index
+
+                // Find the index of the selected column
+                for (int col = 1; col <= lastCol; col++)
+                {
+                    string columnName = worksheet.Cells[1, col]?.Text;
+
+                    if (columnName == selectedColumn)
+                    {
+                        selectedColumnIndex = col;
+                        break; // Exit the loop once the column is found
+                    }
+                }
+
+                if (selectedColumnIndex == -1)
+                {
+                    MessageBox.Show("Selected column not found.");
+                    return;
+                }
+
+                // Check if searchText exists in the selected column
+                bool searchTextFound = false;
+
+                for (int row = 2; row <= lastRow; row++) // Start from row 2 to skip the header
+                {
+                    string cellValue = worksheet.Cells[row, selectedColumnIndex]?.Text; // Get cell value of selected column
+
+                    if (!string.IsNullOrEmpty(cellValue) && cellValue.Trim().ToUpper() == searchText)
+                    {
+                        searchTextFound = true;
+                        break; // Exit the loop if searchText is found
+                    }
+                }
+
+                if (!searchTextFound)
+                {
+                    MessageBox.Show("Search text not found in the selected column.");
+                    return; // Exit if searchText is not found
+                }
+
                 using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                 {
                     saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
@@ -141,26 +168,6 @@ namespace EE__Excel_Extractor_
                             }
 
                             newRow++;
-
-                            int selectedColumnIndex = -1; // Initialize the selected column index
-
-                            // Find the index of the selected column
-                            for (int col = 1; col <= lastCol; col++)
-                            {
-                                string columnName = worksheet.Cells[1, col]?.Text;
-
-                                if (columnName == selectedColumn)
-                                {
-                                    selectedColumnIndex = col;
-                                    break; // Exit the loop once the column is found
-                                }
-                            }
-
-                            if (selectedColumnIndex == -1)
-                            {
-                                MessageBox.Show("Selected column not found.");
-                                return;
-                            }
 
                             for (int row = 2; row <= lastRow; row++) // Start from row 2 to skip the header
                             {
@@ -186,6 +193,14 @@ namespace EE__Excel_Extractor_
                                 outputPackage.SaveAs(outputFile);
 
                                 MessageBox.Show("Extraction complete. Extracted data saved to output file.");
+
+                                string fileDirectory = Path.GetDirectoryName(outputFilePath);
+
+                                // Check if the directory exists and then open it in the file explorer
+                                if (Directory.Exists(fileDirectory))
+                                {
+                                    Process.Start("explorer.exe", $"/select,\"{outputFilePath}\"");
+                                }
                             }
                             else
                             {
@@ -194,6 +209,48 @@ namespace EE__Excel_Extractor_
                         }
                     }
                 }
+            }
+        }
+
+        private void labelEnter_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtbox_index.Text, out int rowIndex))
+            {
+                using (var package = new ExcelPackage(new FileInfo(inputFilePath)))
+                {
+                    var worksheet = package.Workbook.Worksheets[0]; // Assuming the data is on the first sheet
+
+                    // Check if the index is valid (between 1 and the number of rows)
+                    if (rowIndex >= 1 && rowIndex <= worksheet.Dimension.End.Row)
+                    {
+                        // Fetch the entire row for the specified index
+                        var headerRow = worksheet.Cells[rowIndex, 1, rowIndex, worksheet.Dimension.Columns];
+
+                        // Initialize cbox_Region with the fetched headers
+                        cbox_Region.Items.Clear();
+                        foreach (var headerCell in headerRow)
+                        {
+                            string columnName = headerCell.Text;
+                            cbox_Region.Items.Add(columnName);
+                        }
+
+                        cbox_Region.SelectedIndex = 0; // Select the first header
+
+                        labelColumn.Visible = true;
+                        cbox_Region.Visible = true;
+                        labelFilter.Visible = true;
+                        txtRegion.Visible = true;
+                        btn_extract.Visible = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid row index.");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid integer index.");
             }
         }
     }
