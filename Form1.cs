@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
+using System.Data;
 
 namespace EE__Excel_Extractor_
 {
@@ -45,6 +46,46 @@ namespace EE__Excel_Extractor_
                         }
                     }
                 }
+
+                LoadExcelData(inputFilePath);
+            }
+        }
+
+        private void LoadExcelData(string filePath)
+        {
+            try
+            {
+                using (ExcelPackage package = new ExcelPackage(new FileInfo(filePath)))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // Assuming you're working with the first sheet
+
+                    DataTable dataTable = new DataTable();
+
+                    // Populate column headers from Excel
+                    foreach (var headerCell in worksheet.Cells[1, 1, 1, worksheet.Dimension.End.Column])
+                    {
+                        dataTable.Columns.Add(headerCell.Text);
+                    }
+
+                    // Populate data rows from Excel
+                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    {
+                        DataRow dataRow = dataTable.NewRow();
+                        for (int col = 1; col <= worksheet.Dimension.End.Column; col++)
+                        {
+                            dataRow[col - 1] = worksheet.Cells[row, col].Text;
+                        }
+                        dataTable.Rows.Add(dataRow);
+                    }
+
+                    // Bind DataTable to DataGridView
+                    dataGridView1.DataSource = dataTable;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please select a file.");
+                return;
             }
         }
 
@@ -127,6 +168,7 @@ namespace EE__Excel_Extractor_
 
                                 if (!string.IsNullOrEmpty(cellValue) && cellValue.Trim().ToUpper() == searchText)
                                 {
+
                                     // Extract the entire row
                                     for (int col = 1; col <= lastCol; col++)
                                     {
@@ -137,7 +179,7 @@ namespace EE__Excel_Extractor_
                                 }
                             }
 
-                            if (newRow > 1)
+                            if ((newRow > 1))
                             {
                                 // Save the output Excel file if data was extracted
                                 FileInfo outputFile = new FileInfo(outputFilePath);
