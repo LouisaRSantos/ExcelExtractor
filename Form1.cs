@@ -214,43 +214,51 @@ namespace EE__Excel_Extractor_
 
         private void labelEnter_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(txtbox_index.Text, out int rowIndex))
+            try
             {
-                using (var package = new ExcelPackage(new FileInfo(inputFilePath)))
+                if (int.TryParse(txtbox_index.Text, out int rowIndex))
                 {
-                    var worksheet = package.Workbook.Worksheets[0]; // Assuming the data is on the first sheet
-
-                    // Check if the index is valid (between 1 and the number of rows)
-                    if (rowIndex >= 1 && rowIndex <= worksheet.Dimension.End.Row)
+                    using (var package = new ExcelPackage(new FileInfo(inputFilePath)))
                     {
-                        // Fetch the entire row for the specified index
-                        var headerRow = worksheet.Cells[rowIndex, 1, rowIndex, worksheet.Dimension.Columns];
+                        var worksheet = package.Workbook.Worksheets[0]; // Assuming the data is on the first sheet
 
-                        // Initialize cbox_Region with the fetched headers
-                        cbox_Region.Items.Clear();
-                        foreach (var headerCell in headerRow)
+                        // Check if the index is valid (between 1 and the number of rows)
+                        if (rowIndex >= 1 && rowIndex <= worksheet.Dimension.End.Row)
                         {
-                            string columnName = headerCell.Text;
-                            cbox_Region.Items.Add(columnName);
+                            // Fetch the entire row for the specified index
+                            var headerRow = worksheet.Cells[rowIndex, 1, rowIndex, worksheet.Dimension.Columns];
+
+                            // Initialize cbox_Region with the fetched headers
+                            cbox_Region.Items.Clear();
+                            foreach (var headerCell in headerRow)
+                            {
+                                string columnName = headerCell.Text;
+                                cbox_Region.Items.Add(columnName);
+                            }
+
+                            cbox_Region.SelectedIndex = 0; // Select the first header
+
+                            labelColumn.Visible = true;
+                            cbox_Region.Visible = true;
+                            labelFilter.Visible = true;
+                            txtRegion.Visible = true;
+                            btn_extract.Visible = true;
                         }
-
-                        cbox_Region.SelectedIndex = 0; // Select the first header
-
-                        labelColumn.Visible = true;
-                        cbox_Region.Visible = true;
-                        labelFilter.Visible = true;
-                        txtRegion.Visible = true;
-                        btn_extract.Visible = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid row index.");
+                        else
+                        {
+                            MessageBox.Show("Invalid row index.");
+                        }
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Please enter a valid integer index.");
+                }
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("Please enter a valid integer index.");
+                MessageBox.Show("Please upload file.");
+                return;
             }
         }
     }

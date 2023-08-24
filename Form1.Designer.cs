@@ -176,6 +176,7 @@ namespace EE__Excel_Extractor_
             this.Controls.Add(this.btn_upload);
             this.Controls.Add(this.cbox_Region);
             this.Controls.Add(this.btn_extract);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
