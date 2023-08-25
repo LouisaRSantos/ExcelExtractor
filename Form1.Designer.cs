@@ -152,7 +152,8 @@ namespace EE__Excel_Extractor_
             // labelEnter
             // 
             this.labelEnter.AutoSize = true;
-            this.labelEnter.Location = new System.Drawing.Point(242, 97);
+            this.labelEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelEnter.Location = new System.Drawing.Point(239, 97);
             this.labelEnter.Name = "labelEnter";
             this.labelEnter.Size = new System.Drawing.Size(32, 13);
             this.labelEnter.TabIndex = 11;
@@ -180,7 +181,7 @@ namespace EE__Excel_Extractor_
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "REGION";
+            this.Text = "Excel Extractor";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

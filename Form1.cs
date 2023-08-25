@@ -11,6 +11,7 @@ namespace EE__Excel_Extractor_
     public partial class Form1 : Form
     {
         private string inputFilePath;
+        private int rowNumber = 1;
 
         public Form1()
         {
@@ -31,7 +32,15 @@ namespace EE__Excel_Extractor_
                     lbl_filename.Visible = true;
                     lbl_filename.Text = "Uploaded. Ready to extract."; // Display the selected file path in a TextBox or Label
 
-                    
+                    txtbox_index.Clear();
+                    rowNumber = 1;
+
+                    labelColumn.Visible = false;
+                    cbox_Region.Visible = false;
+                    labelFilter.Visible = false;
+                    txtRegion.Visible = false;
+                    btn_extract.Visible = false;
+
                 }
 
                 LoadExcelData(inputFilePath);
@@ -46,19 +55,23 @@ namespace EE__Excel_Extractor_
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // Assuming you're working with the first sheet
 
+                    int lastRow = worksheet.Dimension.End.Row;
+                    int lastCol = worksheet.Dimension.End.Column;
+
+                    // Create a DataTable with enough columns and rows to hold the Excel data
                     DataTable dataTable = new DataTable();
 
-                    // Populate column headers from Excel
-                    foreach (var headerCell in worksheet.Cells[1, 1, 1, worksheet.Dimension.End.Column])
+                    for (int col = 1; col <= lastCol; col++)
                     {
-                        dataTable.Columns.Add(headerCell.Text);
+                        // Add columns to the DataTable
+                        dataTable.Columns.Add();
                     }
 
-                    // Populate data rows from Excel
-                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    // Add rows to the DataTable
+                    for (int row = rowNumber; row <= lastRow; row++)
                     {
                         DataRow dataRow = dataTable.NewRow();
-                        for (int col = 1; col <= worksheet.Dimension.End.Column; col++)
+                        for (int col = 1; col <= lastCol; col++)
                         {
                             dataRow[col - 1] = worksheet.Cells[row, col].Text;
                         }
@@ -71,10 +84,12 @@ namespace EE__Excel_Extractor_
             }
             catch (Exception)
             {
-                MessageBox.Show("Please select a file.");
-                return;
+                MessageBox.Show("File can't be displayed");
             }
         }
+
+
+
 
         private void btn_extract_Click(object sender, EventArgs e)
         {
@@ -243,16 +258,20 @@ namespace EE__Excel_Extractor_
                             labelFilter.Visible = true;
                             txtRegion.Visible = true;
                             btn_extract.Visible = true;
+
+                            rowNumber = rowIndex;
+                            LoadExcelData(inputFilePath);
+
                         }
                         else
                         {
-                            MessageBox.Show("Invalid row index.");
+                            MessageBox.Show("Invalid row index.","Error");
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please enter a valid integer index.");
+                    MessageBox.Show("Please enter a valid integer index.","Notice");
                 }
             }
             catch (Exception)
